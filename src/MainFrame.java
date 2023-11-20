@@ -67,6 +67,8 @@ public class MainFrame extends JFrame{
         binaryzacja2.addActionListener(e->binarizePercentBlack());
 
         MenuItem binaryzacja3 = new MenuItem("Selekcja iteratywna średniej");
+        binaryzacja3.addActionListener(e->binarizeMeanIterative());
+
         MenuItem binaryzacja4 = new MenuItem("Selekcja entropii");
         MenuItem binaryzacja5 = new MenuItem("Błąd Minimalny");
         MenuItem binaryzacja6 = new MenuItem("Metoda rozmytego błędu minimalnego");
@@ -94,6 +96,12 @@ public class MainFrame extends JFrame{
             System.out.println("Didn't find the image");
         }
 
+
+    }
+
+    private void binarizeMeanIterative() {
+        BufferedImage bufferedImage = new Binarization().binarizeMeanIterativeSelection(imagePanel.getImage());
+        imagePanel.setImage(bufferedImage);
 
     }
 
