@@ -1,9 +1,12 @@
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.Console;
 
 public class Binarization {
 
     int[] avgValueHis;
+
+
     public BufferedImage binarizeByThreshold(BufferedImage image, int threshold){
         int width = image.getWidth();
         int height = image.getHeight();
@@ -29,38 +32,20 @@ public class Binarization {
     }
 
     public BufferedImage binarizePercentBlackSelection(BufferedImage image, int percent) {
-        percent=750*percent/100;
-        int width = image.getWidth();
-        int height = image.getHeight();
-        int sum = 0;
-        int nrOfPixels = width * height;
-        int nrOfBlackPixels = 0;
-        int threshold = 0;
 
+        System.out.println("Percent: "+percent+"%");
 
-        BufferedImage bufferedImage = null;
-        while (threshold <= percent) {
-            bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-            nrOfBlackPixels = 0;
-            for (int i = 0; i < height; i++) {
-                for (int j = 0; j < width; j++) {
-                    int color = image.getRGB(j, i);
-                    int blue = color & 0xff;
-                    int green = (color & 0xff00) >> 8;
-                    int red = (color & 0xff0000) >> 16;
-                    sum = (red + green + blue);
-                    if (sum >= threshold) {
-                        bufferedImage.setRGB(j, i, Color.WHITE.getRGB());
-                    } else {
-                        bufferedImage.setRGB(j, i, 0);
-                        nrOfBlackPixels++;
-                    }
-                    if ((double)nrOfBlackPixels >= (double) (nrOfPixels * percent / 100)) break;
-                }
-            }
-            threshold++;
+        setAvgValueHistogram(image);
+        int i=0;
+        int threshold= 255;
+        int blackPixels=0;
+        while(blackPixels<(float)image.getHeight()*(float)image.getWidth()*(float)percent/100f&&threshold!=0){
+            i++;
+            System.out.println("Przejście nr:"+i+" HistogramValue: "+avgValueHis[threshold]);
+            blackPixels+=avgValueHis[threshold--];
         }
-        return bufferedImage;
+        System.out.println("Ustalony Threshold: "+threshold);
+        return binarizeByThreshold(image,255-threshold);
     }
 
     public BufferedImage binarizeMeanIterativeSelection(BufferedImage image){
@@ -121,4 +106,5 @@ public class Binarization {
         }
 
     }
+
 }

@@ -12,9 +12,8 @@ public class HisEqualization {
         int alpha;
         int pixel;
 
-        //tworzenie LookUpTables zawierających dane o konkretnych kolorach po operacji rozszerzenia
+        //tworzenie LookUpTables zawierających tabele z danymi o konkretnych kolorach po operacji rozszerzenia
         ArrayList<int[]> histLUT = lookUpTable(original);
-
         BufferedImage equalizedImage = new BufferedImage(original.getWidth(), original.getHeight(), original.getType());
 
         //ustawianie pojedynczych pixeli obrazka wyjściowego
